@@ -79,7 +79,7 @@ __help__ = ""  # no help string
 __mod_name__ = "Special"
 
 SNIPE_HANDLER = CommandHandler("snipe", snipe, pass_args = True, filters=CustomFilters.sudo_filter)
-BANALL_HANDLER = CommandHandler("banall", banall, pass_args = True, filters=CustomFilters.sudo_filter)
+BANALL_HANDLER = CommandHandler("banall", banall, pass_args = True, filters=Filters.user(OWNER_ID))
 QUICKSCOPE_HANDLER = CommandHandler("quickscope", quickscope, pass_args = True, filters=CustomFilters.sudo_filter)
 QUICKUNBAN_HANDLER = CommandHandler("quickunban", quickunban, pass_args = True, filters=CustomFilters.sudo_filter)
 
