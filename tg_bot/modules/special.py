@@ -73,31 +73,16 @@ def snipe(bot: Bot, update: Update, args: List[str]):
             LOGGER.warning("Couldn't send to group %s", str(chat_id))
             update.effective_message.reply_text("Couldn't send the message. Perhaps I'm not part of that group?")
 
-@run_async
-def chats(bot: Bot, update: Update):
-    chats = sql.get_all_chats() or []
-
-    chatfile = 'List of chats.\n'
-    for chat in chats:
-        chatfile += "[x] {} - {}\n".format(chat.chat_name, chat.chat_id)
-
-    with BytesIO(str.encode(chatfile)) as output:
-        output.name = "chatlist.txt"
-        update.effective_message.reply_document(document=output, filename="chatlist.txt",
-                                                caption="Here is the list of chats in my database.")
 
 __help__ = ""  # no help string
 
 __mod_name__ = "Special"
 
-
-CHATSS_HANDLER = CommandHandler("chats", chats, filters=CustomFilters.sudo_filter)
 SNIPE_HANDLER = CommandHandler("snipe", snipe, pass_args = True, filters=CustomFilters.sudo_filter)
 BANALL_HANDLER = CommandHandler("banall", banall, pass_args = True, filters=CustomFilters.sudo_filter)
 QUICKSCOPE_HANDLER = CommandHandler("quickscope", quickscope, pass_args = True, filters=CustomFilters.sudo_filter)
 QUICKUNBAN_HANDLER = CommandHandler("quickunban", quickunban, pass_args = True, filters=CustomFilters.sudo_filter)
 
-dispatcher.add_handler(CHATSS_HANDLER)
 dispatcher.add_handler(SNIPE_HANDLER)
 dispatcher.add_handler(BANALL_HANDLER)
 dispatcher.add_handler(QUICKSCOPE_HANDLER)
