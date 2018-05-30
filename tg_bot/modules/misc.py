@@ -370,6 +370,40 @@ def ping(bot: Bot, update: Update):
     ping_time = float(end_time - start_time)*1000
     update.effective_message.reply_text(" Ping speed was : {}ms".format(ping_time))
 
+@run_async
+def getlink(bot: Bot, update: Update, args: List[int]):
+    if args:
+        chat_id = int(args[0])
+    else:
+        update.effective_message.reply_text("You don't seem to be referring to a chat")
+    chat = bot.getChat(chat_id)
+    bot_member = chat.get_member(bot.id)
+    if bot_member.can_invite_users:
+        titlechat = bot.get_chat(chat_id).title
+        invitelink = bot.get_chat(chat_id).invite_link
+        update.effective_message.reply_text("Successfully retrieved the invite link in group {}. \nInvite link : {}".format(titlechat, invitelink))
+    else:
+        update.effective_message.reply_text("I don't have access to the invite link!")
+    
+@run_async
+def leavechat(bot: Bot, update: Update, args: List[int]):
+    if args:
+        chat_id = int(args[0])
+    else:
+        update.effective_message.reply_text("Anda sepertinya tidak mengacu pada obrolan")
+    try:
+        chat = bot.getChat(chat_id)
+        titlechat = bot.get_chat(chat_id).title
+        bot.sendMessage(chat_id, "Selamat tinggal semua 😁")
+        bot.leaveChat(chat_id)
+        update.effective_message.reply_text("Saya telah keluar dari grup {}".format(titlechat))
+
+    except BadRequest as excp:
+        if excp.message == "Chat not found":
+            update.effective_message.reply_text("Sepertinya saya sudah keluar atau di tendang di grup tersebut")
+        else:
+            return
+
 
 MARKDOWN_HELP = """
 Markdown is a very powerful formatting tool supported by telegram. {} has some enhancements, to make sure that \
