@@ -293,7 +293,11 @@ __mod_name__ = "Global Bans"
 
 GBAN_HANDLER = CommandHandler("gban", gban, pass_args=True,
                               filters=CustomFilters.sudo_filter | CustomFilters.support_filter)
+GBAN_ALIAS_HANDLER = CommandHandler("gangbang", gban, pass_args=True,
+                              filters=CustomFilters.sudo_filter | CustomFilters.support_filter)
 UNGBAN_HANDLER = CommandHandler("ungban", ungban, pass_args=True,
+                                filters=CustomFilters.sudo_filter | CustomFilters.support_filter)
+UNGBAN_ALIAS_HANDLER = CommandHandler("ungangbang", ungban, pass_args=True,
                                 filters=CustomFilters.sudo_filter | CustomFilters.support_filter)
 GBAN_LIST = CommandHandler("gbanlist", gbanlist,
                            filters=CustomFilters.sudo_filter | CustomFilters.support_filter)
@@ -303,7 +307,9 @@ GBAN_STATUS = CommandHandler("gbanstat", gbanstat, pass_args=True, filters=Filte
 GBAN_ENFORCER = MessageHandler(Filters.all & Filters.group, enforce_gban)
 
 dispatcher.add_handler(GBAN_HANDLER)
+dispatcher.add_handler(GBAN_ALIAS_HANDLER)
 dispatcher.add_handler(UNGBAN_HANDLER)
+dispatcher.add_handler(UNGBAN_ALIAS_HANDLER)
 dispatcher.add_handler(GBAN_LIST)
 dispatcher.add_handler(GBAN_STATUS)
 
