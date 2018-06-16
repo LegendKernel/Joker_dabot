@@ -1,6 +1,5 @@
 from telegram import Message, Update, Bot, User
 from telegram.ext import Filters, MessageHandler, run_async
-from tg_bot import YANDEX_KEY
 from requests import get
 
 from tg_bot.modules.disable import DisableAbleCommandHandler
