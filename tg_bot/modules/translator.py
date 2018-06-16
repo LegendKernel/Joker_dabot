@@ -1,14 +1,13 @@
 from telegram import Message, Update, Bot, User
 from telegram.ext import Filters, MessageHandler, run_async
-
+from tg_bot import YANDEX_KEY
 from requests import get
 
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot import dispatcher
 
 base_url = 'https://translate.yandex.net/api/v1.5/tr.json/translate'
-api_key = 'trnsl.1.1.20180603T023816Z.763b39e3388b46d6.aa9abf45baceb438c96bb1593ce58199cc66c4f1'
-
+api_key = YANDEX_KEY
 @run_async
 def translate(bot: Bot, update: Update):
   message = update.effective_message
