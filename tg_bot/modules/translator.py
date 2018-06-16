@@ -1,25 +1,24 @@
-from telegram import Update, Bot
-from telegram.ext import run_async
+from telegram import Message, Update, Bot, User
+from telegram.ext import Filters, MessageHandler, run_async
+
+from requests import get
 
 from tg_bot.modules.disable import DisableAbleCommandHandler
 from tg_bot import dispatcher
 
-from requests import get
+base_url = 'https://translate.yandex.net/api/v1.5/tr.json/translate'
+api_key = 'trnsl.1.1.20180603T023816Z.763b39e3388b46d6.aa9abf45baceb438c96bb1593ce58199cc66c4f1'
 
 @run_async
-def ud(bot: Bot, update: Update):
+def translate(bot: Bot, update: Update):
   message = update.effective_message
-  text = message.text[len('/ud '):]
-  results = get(f'http://api.urbandictionary.com/v0/define?term={text}').json()
-  reply_text = f'Word: {text}\nDefinition: {results["list"][0]["definition"]}'
-  message.reply_text(reply_text)
-
-__help__ = """
- - /ud:{word} Type the word or expression you want to search use. like /ud telegram Word: Telegram Definition: A once-popular system of telecommunications, in which the sender would contact the telegram service and speak their [message] over the [phone]. The person taking the message would then send it, via a teletype machine, to a telegram office near the receiver's [address]. The message would then be hand-delivered to the addressee. From 1851 until it discontinued the service in 2006, Western Union was the best-known telegram service in the world.
-"""
-
-__mod_name__ = "Urban dictionary"
+  text = message.reply_to_message.text
+  translation = get(f'{base_url}?key={api_key}&text={text}&lang=en').json()
   
-ud_handle = DisableAbleCommandHandler("ud", ud)
+  reply_text = f"Language: {translation['lang']}\nText: {translation['text'][0]}"
+  
+  message.reply_to_message.reply_text(reply_text)
 
-dispatcher.add_handler(ud_handle)
+translate_handler = DisableAbleCommandHandler("translate", translate)
+
+dispatcher.add_handler(translate_handler)
